@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RNX | Strategic Operating System</title>
+  <style>
+    :root {
+      --bg: #050607;
+      --gold: #d6ad60;
+      --gold2: #f4d58d;
+      --text: #f7f3ea;
+      --muted: #b9b2a6;
+      --line: rgba(214,173,96,0.22);
+      --shadow: 0 24px 80px rgba(0,0,0,.45);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(214,173,96,.18), transparent 28%),
+        radial-gradient(circle at 85% 10%, rgba(45,88,140,.2), transparent 30%),
+        linear-gradient(180deg, #050607 0%, #080a0e 45%, #050607 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container { width: min(1180px, 88vw); margin: auto; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(5,6,7,.86);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--gold2);
+      background: linear-gradient(145deg, rgba(214,173,96,.18), rgba(255,255,255,.03));
+    }
+
+    nav { display: flex; gap: 22px; align-items: center; }
+    nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    nav a:hover { color: var(--gold2); }
+
+    .hero {
+      min-height: 86vh;
+      display: grid;
+      place-items: center;
+      padding: 80px 0 60px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      color: var(--gold2);
+      text-transform: uppercase;
+      letter-spacing: 3.5px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(44px, 7vw, 92px);
+      line-height: .98;
+      margin: 0 0 24px;
+      letter-spacing: -4px;
+    }
+
+    .hero p, .lead {
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 22px);
+      max-width: 790px;
+      margin: 0 0 38px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      padding: 14px 22px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 14px;
+      color: var(--text);
+      background: rgba(255,255,255,.03);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #101010;
+      border-color: transparent;
+    }
+
+    .orb-card {
+      min-height: 430px;
+      border: 1px solid var(--line);
+      border-radius: 36px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
+        radial-gradient(circle at 50% 35%, rgba(214,173,96,.2), transparent 35%);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      border: 1px solid rgba(214,173,96,.25);
+      left: 50%;
+      top: 42%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(244,213,141,.26) 0%, rgba(214,173,96,.08) 36%, transparent 67%);
+      box-shadow: 0 0 80px rgba(214,173,96,.18);
+    }
+
+    .orbit {
+      position: absolute;
+      inset: 42px;
+      border: 1px solid rgba(214,173,96,.14);
+      border-radius: 50%;
+    }
+
+    .orb-title {
+      position: absolute;
+      bottom: 28px;
+      left: 28px;
+      right: 28px;
+    }
+
+    .orb-title h3 {
+      margin: 0;
+      font-size: 28px;
+      color: var(--gold2);
+    }
+
+    section {
+      padding: 90px 0;
+      border-top: 1px solid rgba(214,173,96,.08);
+    }
+
+    h2 {
+      font-size: clamp(34px, 4.5vw, 58px);
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin: 0 0 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .grid.two { grid-template-columns: repeat(2, 1fr); }
+
+    .card {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
+      border-radius: 26px;
+      padding: 26px;
+      min-height: 220px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.22);
+    }
+
+    .card.gold {
+      background: linear-gradient(180deg, rgba(214,173,96,.13), rgba(255,255,255,.025));
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      color: var(--gold2);
+      font-size: 21px;
+    }
+
+    .card p, .node span, .mission-item p {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .number {
+      display: inline-flex;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      color: var(--gold2);
+      font-weight: 900;
+      margin-bottom: 16px;
+      background: rgba(0,0,0,.2);
+    }
+
+    .ecosystem {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .node {
+      min-height: 150px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      padding: 20px;
+    }
+
+    .node strong {
+      display: block;
+      color: var(--gold2);
+      margin-bottom: 8px;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .flow div {
+      border: 1px solid var(--line);
+      padding: 18px 12px;
+      border-radius: 18px;
+      text-align: center;
+      color: var(--gold2);
+      font-weight: 900;
+      background: rgba(214,173,96,.06);
+    }
+
+    .mission-list { display: grid; gap: 14px; margin-top: 24px; }
+
+    .mission-item {
+      display: grid;
+      grid-template-columns: 170px 1fr;
+      gap: 22px;
+      padding: 22px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+    }
+
+    .mission-item b { color: var(--gold2); }
+
+    .quote {
+      font-size: clamp(28px, 4vw, 54px);
+      line-height: 1.12;
+      letter-spacing: -2px;
+      color: var(--text);
+      max-width: 980px;
+    }
+
+    .contact-card {
+      border: 1px solid var(--line);
+      border-radius: 34px;
+      padding: 40px;
+      background:
+        linear-gradient(145deg, rgba(214,173,96,.14), rgba(255,255,255,.035)),
+        radial-gradient(circle at 80% 10%, rgba(45,88,140,.26), transparent 40%);
+      box-shadow: var(--shadow);
+    }
+
+    footer {
+      padding: 42px 0;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      nav { display: none; }
+      .hero-grid, .grid, .grid.two, .ecosystem, .flow { grid-template-columns: 1fr; }
+      h1 { letter-spacing: -2px; }
+      .mission-item { grid-template-columns: 1fr; }
+      .orb-card { min-height: 340px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand"><div class="mark">R</div><span>RNX</span></div>
+      <nav>
+        <a href="#mission">Mission</a>
+        <a href="#about">About</a>
+        <a href="#ecosystem">Ecosystem</a>
+        <a href="#rsos">RSOS</a>
+        <a href="#contact">Partner</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Strategic Execution • AI • Wealth • Legacy</div>
+          <h1>Building Wealth, Intelligence, Influence & Legacy Through Systems.</h1>
+          <p>RNX is the digital headquarters of Stanley Ikechukwu Oranika, a project leader, systems architect, wealth builder, and strategic executor building ventures, frameworks, relationships, and institutions that create lasting value across Africa and beyond.</p>
+          <div class="buttons">
+            <a class="btn primary" href="#mission">Explore The Mission</a>
+            <a class="btn" href="#contact">Partner With RNX</a>
+          </div>
+        </div>
+        <div class="orb-card">
+          <div class="orbit"></div>
+          <div class="orb"></div>
+          <div class="orb-title">
+            <h3>RSOS</h3>
+            <p>The operating system for converting knowledge into decisions, decisions into action, and action into measurable results.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mission">
+      <div class="container">
+        <div class="eyebrow">The Mission</div>
+        <h2>A mission bigger than one business.</h2>
+        <p class="lead">The RNX mission is to build systems, organizations, leaders, and opportunities that multiply human potential, unlock strategic wealth, and create a legacy that outlives the founder.</p>
+        <div class="grid">
+          <div class="card gold"><h3>VirtusDeus International</h3><p>A strategic execution company for project management, facility management, real estate advisory, cloud systems, and business transformation.</p></div>
+          <div class="card"><h3>10 AI Billionaires</h3><p>A bold African talent mission to identify, mentor, and launch young builders into AI-powered ventures with global potential.</p></div>
+          <div class="card"><h3>RNX Strategic Operating System</h3><p>A personal command center for priorities, opportunities, decisions, knowledge, relationships, wealth, and legacy.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="eyebrow">About RNX</div>
+        <h2>Stanley Ikechukwu Oranika.</h2>
+        <p class="lead">Project Manager. Systems Architect. Wealth Builder. Thought Leader. Strategic Executor.</p>
+        <div class="grid two">
+          <div class="card"><h3>The Builder</h3><p>RNX brings structure to ambition. His work sits at the intersection of project leadership, strategic execution, real estate, AI systems, information organization, and relationship capital.</p></div>
+          <div class="card"><h3>The Philosophy</h3><p>Knowledge must become decisions. Decisions must become action. Action must become results. Results must become wealth, influence, impact, and legacy.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="ecosystem">
+      <div class="container">
+        <div class="eyebrow">The Ecosystem</div>
+        <h2>The RNX Ecosystem.</h2>
+        <p class="lead">A connected platform of businesses, missions, frameworks, and strategic assets.</p>
+        <div class="ecosystem">
+          <div class="node"><strong>VirtusDeus</strong><span>Strategic execution and consulting.</span></div>
+          <div class="node"><strong>RSOS</strong><span>Personal strategic operating system.</span></div>
+          <div class="node"><strong>AI Billionaire Factory</strong><span>African AI founder development.</span></div>
+          <div class="node"><strong>Knowledge Vault</strong><span>Second brain and wisdom archive.</span></div>
+          <div class="node"><strong>Opportunity Network</strong><span>Deals, grants, partnerships, platforms.</span></div>
+          <div class="node"><strong>Real Estate Portfolio</strong><span>Assets, advisory, value creation.</span></div>
+          <div class="node"><strong>Thought Leadership</strong><span>Writing, speaking, frameworks.</span></div>
+          <div class="node"><strong>Legacy Architecture</strong><span>Family, institutions, succession.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rsos">
+      <div class="container">
+        <div class="eyebrow">The Operating System</div>
+        <h2>RNX Strategic Operating System.</h2>
+        <p class="lead">RSOS is the command layer beneath the mission. It organizes the work into specialized agents that focus on execution, wealth, migration, AI, relationships, knowledge, thought leadership, and legacy.</p>
+        <div class="grid">
+          <div class="card"><span class="number">1</span><h3>Chief of Staff</h3><p>Priorities, planning, accountability, decision support.</p></div>
+          <div class="card"><span class="number">2</span><h3>World Creation</h3><p>Big visions, new realities, ventures, institutions.</p></div>
+          <div class="card"><span class="number">3</span><h3>Canada Mission Control</h3><p>Migration strategy, documentation, settlement, positioning.</p></div>
+          <div class="card"><span class="number">4</span><h3>AI Billionaire Factory</h3><p>Talent discovery, mentorship, venture incubation.</p></div>
+          <div class="card"><span class="number">5</span><h3>Wealth Creation</h3><p>Real estate, investments, business models, cash flow.</p></div>
+          <div class="card"><span class="number">6</span><h3>Opportunity Intelligence</h3><p>Grants, contracts, partnerships, funding, platforms.</p></div>
+          <div class="card"><span class="number">7</span><h3>Relationship Capital</h3><p>Rotary, PMI, KCOBA, business, investors, influence.</p></div>
+          <div class="card"><span class="number">8</span><h3>Knowledge Vault</h3><p>Lessons, frameworks, SOPs, playbooks, wisdom.</p></div>
+          <div class="card"><span class="number">9</span><h3>Thought Leadership</h3><p>Books, articles, speeches, posts, public authority.</p></div>
+          <div class="card"><span class="number">10</span><h3>Legacy Architect</h3><p>Family governance, succession, institutions, impact.</p></div>
+        </div>
+        <div class="flow">
+          <div>Knowledge</div>
+          <div>Decisions</div>
+          <div>Actions</div>
+          <div>Results</div>
+          <div>Wealth</div>
+          <div>Legacy</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="current-missions">
+      <div class="container">
+        <div class="eyebrow">Current Missions</div>
+        <h2>What RNX is building now.</h2>
+        <div class="mission-list">
+          <div class="mission-item"><b>Canada Mission</b><p>Build a credible global future through professional positioning, migration readiness, and international opportunity access.</p></div>
+          <div class="mission-item"><b>AI Billionaire Factory</b><p>Create a system for finding, developing, and launching under-30 African AI builders into high-value ventures.</p></div>
+          <div class="mission-item"><b>VirtusDeus Growth</b><p>Position VirtusDeus International as a world-class strategic execution and consultancy platform.</p></div>
+          <div class="mission-item"><b>Knowledge Vault</b><p>Capture experience, conversations, documents, decisions, and frameworks into one living intelligence system.</p></div>
+          <div class="mission-item"><b>Global Partnerships</b><p>Convert Rotary, PMI, alumni, business, and institutional relationships into collaboration, impact, and opportunity.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="knowledge">
+      <div class="container">
+        <div class="eyebrow">Knowledge Hub</div>
+        <h2>Ideas worth building.</h2>
+        <p class="lead">The RNX Knowledge Hub will publish frameworks, essays, playbooks, and strategic notes on systems thinking, wealth creation, AI, leadership, project management, opportunity design, and legacy.</p>
+        <div class="grid">
+          <div class="card"><h3>Strategy</h3><p>How to turn ambition into structured execution.</p></div>
+          <div class="card"><h3>Wealth Creation</h3><p>How assets, relationships, knowledge, and systems compound.</p></div>
+          <div class="card"><h3>Artificial Intelligence</h3><p>How African builders can create global value with AI.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="impact">
+      <div class="container">
+        <div class="eyebrow">Impact</div>
+        <p class="quote">The ultimate goal is not success. The ultimate goal is significance.</p>
+        <p class="lead">RNX is building beyond personal achievement. The work is to create leaders, institutions, systems, and opportunities that continue producing value for generations.</p>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact-card">
+          <div class="eyebrow">Partner With RNX</div>
+          <h2>Join the mission.</h2>
+          <p class="lead">Reach out for strategic partnerships, consulting, investment conversations, AI founder development, project execution, real estate advisory, or global collaboration.</p>
+          <div class="buttons">
+            <a class="btn primary" href="mailto:stanoran@gmail.com">Start a Conversation</a>
+            <a class="btn" href="#ecosystem">Explore the Ecosystem</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    RNX • Builder of Systems • Creator of Opportunities • Architect of Legacy<br />
+    Abuja, Nigeria • VirtusDeus International • RSOS • AI Billionaire Factory
+  </footer>
+</body>
+</html>
